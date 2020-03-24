@@ -19,14 +19,14 @@
 #D /run/airflow 0755 airflow airflow
 [core]
 unit_test_mode = False
-dags_folder = /opt/airflow/dags
-plugins_folder = /opt/airflow/plugins
-base_log_folder = /opt/airflow/logs
+dags_folder = {{ apache_airflow_dags_folder }}
+plugins_folder = {{ apache_airflow_plugins_folder }}
+base_log_folder = {{ apache_airflow_base_log_folder }}
 logging_level = INFO
 fab_logging_level = WARN
-dag_processor_manager_log_location = /opt/airflow/logs/dag_processor_manager/dag_processor_manager.log
-executor = LocalExecutor
-sql_alchemy_conn = mysql://airflow:airflow@localhost:3306/airflow
+dag_processor_manager_log_location = {{ apache_airflow_base_log_folder }}/dag_processor_manager/dag_processor_manager.log
+executor = {{ apache_airflow_executor }}
+sql_alchemy_conn = {{ apache_airflow_sql_alchemy_conn }}
 load_examples = True
 donot_pickle = False
 dag_concurrency = 16

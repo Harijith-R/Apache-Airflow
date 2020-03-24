@@ -36,11 +36,9 @@
     - apache-airflow
     - apache-airflow[mysql]
     - apache-airflow[crypto]
-    - apache-airflow[celery]
     - cryptography
     - mysqlclient
     - mysql-connector
-#    - mysql-connector-python
 
 - name: Set airflow home
   lineinfile:
@@ -66,9 +64,6 @@
     AIRFLOW_HOME: "{{ apache_airflow_home }}"
   become_user: airflow
   notify: restart airflow
-  # tags:
-  #   skip_ansible_lint
-  ignore_errors: true
 
 - name: Move systemd service files
   template:
