@@ -7,7 +7,7 @@
 
 - name: Create Airflow config folder
   file:
-    path: "{{ apache_airflow_home }}"
+    path: "{{ item }}"
     state: directory
     owner: airflow
     group: airflow
@@ -24,6 +24,7 @@
     - python3-pip
     - python3-dev
     - gcc
+    - build-essential
     - libssl-dev 
     - libmysqlclient-dev
 
@@ -35,10 +36,12 @@
     - apache-airflow
     - apache-airflow[mysql]
     - apache-airflow[crypto]
+    - apache-airflow[celery]
     - cryptography
     - mysqlclient
     - mysql-connector
-    
+#    - mysql-connector-python
+
 - name: Set airflow home
   lineinfile:
     path: /etc/environment
@@ -61,11 +64,10 @@
   command: "{{ apache_airflow_execuitable }} initdb"
   environment:
     AIRFLOW_HOME: "{{ apache_airflow_home }}"
-  become: true
   become_user: airflow
   notify: restart airflow
-  tags:
-    skip_ansible_lint
+  # tags:
+  #   skip_ansible_lint
   ignore_errors: true
 
 - name: Move systemd service files
