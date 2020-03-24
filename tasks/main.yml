@@ -22,13 +22,10 @@
     state: present
   loop:
     - python3-pip
-    - libmysqlclient-dev
     - python3-dev
     - gcc
-    - build-essential
     - libssl-dev 
-    - libffi-dev
-    - python3-pymysql
+    - libmysqlclient-dev
 
 - name: Install Airflow packages
   pip:
@@ -39,8 +36,9 @@
     - apache-airflow[mysql]
     - apache-airflow[crypto]
     - cryptography
-#    - mysql-connector-python
-
+    - mysqlclient
+    - mysql-connector
+    
 - name: Set airflow home
   lineinfile:
     path: /etc/environment
