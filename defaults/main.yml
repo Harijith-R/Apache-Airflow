@@ -3,7 +3,7 @@ ansible_python_interpreter: /usr/bin/python3
 apache_airflow_home: /opt/airflow
 apache_airflow_execuitable: /usr/local/bin/airflow
 apache_airflow_run: /run/airflow
-
+explicit_defaults_for_timestamp: 1
 
 #CORE
 apache_airflow_dags_folder: /opt/airflow/dags
