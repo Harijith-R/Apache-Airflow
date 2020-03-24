@@ -1,0 +1,80 @@
+---
+- name: create Airflow user account
+  user:
+    name: airflow
+    comment: Airflow service user
+    shell: /bin/bash
+
+- name: Create Airflow config folder
+  file:
+    path: "{{ apache_airflow_home }}"
+    state: directory
+    owner: airflow
+    group: airflow
+    mode: 0775
+  loop:
+    - "{{ apache_airflow_home }}"
+    - "{{ apache_airflow_run }}"
+
+- name: Install Dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - python3-pip
+    - libmysqlclient-dev
+    - python3-dev
+    - gcc
+    - build-essential
+    - libssl-dev 
+    - libffi-dev
+    - python3-pymysql
+
+- name: Install Airflow packages
+  pip:
+    executable: pip3
+    name: "{{ item }}"
+  loop:
+    - apache-airflow
+    - apache-airflow[mysql]
+    - apache-airflow[crypto]
+    - cryptography
+#    - mysql-connector-python
+
+- name: Set airflow home
+  lineinfile:
+    path: /etc/environment
+    line: 'AIRFLOW_HOME={{ apache_airflow_home }}'
+
+- name: Copy the airflow env file
+  template:
+    src: airflow.j2
+    dest: /etc/systemd/airflow
+
+- name: Copy the airflow configuration file to airflow home
+  template:
+    src: airflow.cfg.j2
+    dest: "{{ apache_airflow_home }}/airflow.cfg"
+    owner: airflow
+    group: airflow
+  notify: restart airflow
+  
+- name: Initializing DB
+  command: "{{ apache_airflow_execuitable }} initdb"
+  environment:
+    AIRFLOW_HOME: "{{ apache_airflow_home }}"
+  become: true
+  become_user: airflow
+  notify: restart airflow
+  tags:
+    skip_ansible_lint
+  ignore_errors: true
+
+- name: Move systemd service files
+  template:
+    src: "{{ item }}.service.j2"
+    dest: /etc/systemd/system/{{ item }}.service
+  notify: reload systemd
+  loop:
+    - airflow-scheduler
+    - airflow-webserver

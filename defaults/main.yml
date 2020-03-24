@@ -1,0 +1,9 @@
+---
+ansible_python_interpreter: /usr/bin/python3
+apache_airflow_home: /opt/airflow
+apache_airflow_execuitable: /usr/local/bin/airflow
+apache_airflow_run: /run/airflow
+
+#CORE
+airflow_dag_folder: /opt/airflow/dag
+airflow_base_log_folder: /opt/airflow/logs
