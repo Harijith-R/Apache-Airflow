@@ -30,12 +30,12 @@
     - libmysqlclient-dev
     - python3.7
 
-- name: Set python 3.7 as default
-  #command: sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2
-  alternatives:
-    name: python3
-    link: /usr/bin/python3
-    path: /usr/bin/python3.7
+# - name: Set python 3.7 as default
+#   #command: sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2
+#   alternatives:
+#     name: python3
+#     link: /usr/bin/python3
+#     path: /usr/bin/python3.7
 
 - name: Install Airflow packages
   pip:
@@ -56,6 +56,7 @@
   template:
     src: airflow.j2
     dest: /etc/systemd/airflow
+  notify: restart airflow
 
 - name: Copy the airflow configuration file to airflow home
   template:
@@ -71,7 +72,6 @@
     AIRFLOW_HOME: "{{ apache_airflow_home }}"
   become_user: airflow
   become: true
-  notify: restart airflow
 
 - name: Move systemd service files
   template:
