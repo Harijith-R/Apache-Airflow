@@ -1,47 +1,53 @@
-#
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-# KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
-
-#D /run/airflow 0755 airflow airflow
 [core]
-unit_test_mode = False
 dags_folder = {{ apache_airflow_dags_folder }}
 plugins_folder = {{ apache_airflow_plugins_folder }}
 base_log_folder = {{ apache_airflow_base_log_folder }}
 logging_level = INFO
 fab_logging_level = WARN
+unit_test_mode = False
+task_log_reader = task
+log_format = {{ apache_airflow_log_format }}
+simple_log_format = {{ apache_airflow_simple_log_format }}
+log_filename_template = {{ apache_airflow_log_filename_template }}
+log_processor_filename_template = {{ apache_airflow_log_processor_filename_template }}
+default_timezone = utc
 dag_processor_manager_log_location = {{ apache_airflow_base_log_folder }}/dag_processor_manager/dag_processor_manager.log
 executor = {{ apache_airflow_executor }}
 sql_alchemy_conn = {{ apache_airflow_sql_alchemy_conn }}
-load_examples = True
+sql_engine_encoding = utf-8
+sql_alchemy_pool_enabled = True
+sql_alchemy_pool_size = 5
+sql_alchemy_max_overflow = 10
+sql_alchemy_pool_recycle = 1800
+sql_alchemy_pool_pre_ping = True
 donot_pickle = False
-dag_concurrency = 16
-dags_are_paused_at_creation = False
 fernet_key = f_NggTEyguFG2fVMU5pB34R3DpYxCtZXOoNdGRrpDyk=
 enable_xcom_pickling = False
-killed_task_cleanup_time = 5
+killed_task_cleanup_time = 60
 secure_mode = False
 hostname_callable = socket:getfqdn
 worker_precheck = False
+parallelism = 32
+dag_concurrency = 16
+dags_are_paused_at_creation = True
+max_active_runs_per_dag = 16
+load_examples = True
+dagbag_import_timeout = 30
+dag_file_processor_timeout = 50
+task_runner = StandardTaskRunner
+dag_run_conf_overrides_params = False
+dag_discovery_safe_mode = True
 default_task_retries = 0
+store_serialized_dags = False
+min_serialized_dag_update_interval = 30
+check_slas = True
 
 [cli]
 api_client = airflow.api.client.local_client
 endpoint_url = http://localhost:8080
+
+[debug]
+fail_fast = False
 
 [api]
 auth_backend = airflow.api.auth.backend.default
@@ -53,32 +59,47 @@ default_owner = airflow
 default_hive_mapred_queue = airflow
 
 [webserver]
-base_url = http://localhost:8080
+base_url = http://{{ apache_airflow_base_url }}:8080
 web_server_host = 0.0.0.0
 web_server_port = 8080
+web_server_master_timeout = 120
+web_server_worker_timeout = 120
+worker_refresh_batch_size = 1
+worker_refresh_interval = 30
+secret_key = temporary_key
+workers = 4
+worker_class = sync
+expose_config = False
+expose_hostname = True
+expose_stacktrace = True
+authenticate = False
+filter_by_owner = False
+rbac = True
 dag_orientation = LR
 dag_default_view = tree
 log_fetch_timeout_sec = 5
 hide_paused_dags_by_default = False
 page_size = 100
-rbac = False
+demo_mode = False
+cookie_secure = False
 
 [email]
 email_backend = airflow.utils.email.send_email_smtp
 
 [smtp]
-smtp_host = localhost
+smtp_host = 192.168.169.10
 smtp_user = airflow
 smtp_port = 25
 smtp_password = airflow
-smtp_mail_from = airflow@example.com
+smtp_mail_from = airflow@eqs.com
 
 [celery]
 celery_app_name = airflow.executors.celery_executor
 worker_concurrency = 16
+worker_autoscale = 16,12
 worker_log_server_port = 8793
-broker_url = sqla+mysql://airflow:airflow@localhost:3306/airflow
-result_backend = db+mysql://airflow:airflow@localhost:3306/airflow
+broker_url = {{ apache_airflow_broker_url }}
+result_backend = {{ apache_airflow_result_backend }}
 flower_host = 0.0.0.0
 flower_port = 5555
 default_queue = default
@@ -94,10 +115,10 @@ authenticate = False
 docker_image_slave = test/docker-airflow
 
 [scheduler]
-job_heartbeat_sec = 1
+job_heartbeat_sec = 5
 scheduler_heartbeat_sec = 5
 scheduler_health_check_threshold = 30
-authenticate = true
+authenticate = False
 max_threads = 2
 catchup_by_default = True
 scheduler_zombie_task_threshold = 300
@@ -105,7 +126,7 @@ dag_dir_list_interval = 0
 max_tis_per_query = 512
 
 [admin]
-hide_sensitive_variable_fields = False
+hide_sensitive_variable_fields = True
 
 [elasticsearch]
 host =

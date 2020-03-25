@@ -15,6 +15,7 @@
   loop:
     - "{{ apache_airflow_home }}"
     - "{{ apache_airflow_run }}"
+    - "{{ apache_airflow_dags_folder }}"
 
 - name: Install Dependencies
   package:
@@ -27,6 +28,7 @@
     - build-essential
     - libssl-dev 
     - libmysqlclient-dev
+    - python3.7
 
 - name: Install Airflow packages
   pip:
@@ -35,8 +37,6 @@
   loop:
     - apache-airflow
     - apache-airflow[mysql]
-    - apache-airflow[crypto]
-    - cryptography
     - mysqlclient
     - mysql-connector
 
@@ -63,6 +63,7 @@
   environment:
     AIRFLOW_HOME: "{{ apache_airflow_home }}"
   become_user: airflow
+  become: true
   notify: restart airflow
 
 - name: Move systemd service files
