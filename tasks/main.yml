@@ -1,9 +1,10 @@
 ---
-- name: create Airflow user account
+- name: Create Airflow user account
   user:
     name: airflow
     comment: Airflow service user
     shell: /bin/bash
+    group: sudo
 
 - name: Create Airflow config folder
   file:
@@ -36,6 +37,7 @@
   loop:
     - apache-airflow
     - apache-airflow[mysql]
+    - apache-airflow[celery]
     - mysqlclient
     - mysql-connector
 
@@ -65,7 +67,7 @@
   become_user: airflow
   become: true
 
-- name: Move systemd service files
+- name: Create systemd service
   template:
     src: "{{ item }}.service.j2"
     dest: /etc/systemd/system/{{ item }}.service
