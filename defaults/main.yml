@@ -5,9 +5,6 @@ apache_airflow_execuitable: /usr/local/bin/airflow
 apache_airflow_run: /run/airflow
 apache_airflow_base_url: airflow.eqs.intra
 
-# this to be added in my.cnf
-explicit_defaults_for_timestamp: 1
-
 #CORE
 apache_airflow_dags_folder: /opt/airflow/dags
 apache_airflow_plugins_folder: /opt/airflow/plugins
@@ -22,11 +19,6 @@ apache_airflow_log_format: "[%%(asctime)s] {{ '{' }}%%(filename)s:%%(lineno)d} %
 #celery
 apache_airflow_broker_url: "sqla+mysql://airflow:airflow@localhost:3306/airflow"
 apache_airflow_result_backend: "db+mysql://airflow:airflow@localhost:3306/airflow"
-
-#user
-apache_airflow_user: admin
-apache_airflow_email: airflow@eqs.com
-apache_airflow_password: admin
 
 apache_airflow_admin_users:
   - username: admin
