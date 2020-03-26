@@ -37,7 +37,6 @@
   loop:
     - apache-airflow
     - apache-airflow[mysql]
-    - apache-airflow[celery]
     - mysqlclient
     - mysql-connector
 
