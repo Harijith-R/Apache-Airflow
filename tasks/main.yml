@@ -28,14 +28,6 @@
     - build-essential
     - libssl-dev 
     - libmysqlclient-dev
-    - python3.7
-
-# - name: Set python 3.7 as default
-#   #command: sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2
-#   alternatives:
-#     name: python3
-#     link: /usr/bin/python3
-#     path: /usr/bin/python3.7
 
 - name: Install Airflow packages
   pip:
@@ -81,3 +73,7 @@
   loop:
     - airflow-scheduler
     - airflow-webserver
+
+- name: create Airflow admin user
+  command: airflow create_user -r ADMIN -u {{ apache_airflow_user }} -e {{ apache_airflow_email }} -f admin -l admin -p {{ apache_airflow_password }}
+  become: yes
