@@ -27,3 +27,10 @@ apache_airflow_result_backend: "db+mysql://airflow:airflow@localhost:3306/airflo
 apache_airflow_user: admin
 apache_airflow_email: airflow@eqs.com
 apache_airflow_password: admin
+
+apache_airflow_admin_users:
+  - username: admin
+    password: admin
+    firstname: admin
+    lastname: user
+    email: admin@eqs.com

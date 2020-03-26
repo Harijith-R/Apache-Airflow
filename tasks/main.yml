@@ -76,5 +76,7 @@
     - airflow-webserver
 
 - name: create Airflow admin user
-  command: airflow create_user -r ADMIN -u {{ apache_airflow_user }} -e {{ apache_airflow_email }} -f admin -l admin -p {{ apache_airflow_password }}
+  command: airflow create_user -r ADMIN -u {{ item.username }} -e {{ item.email }} -f {{ item.firstname }} -l {{ item.lastname }} -p {{ item.password }}
   become: yes
+  with_items:
+   - "{{ apache_airflow_admin_users }}"
