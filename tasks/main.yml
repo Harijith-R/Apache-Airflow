@@ -19,6 +19,20 @@
     - "{{ apache_airflow_run }}"
     - "{{ apache_airflow_dags_folder }}"
 
+- name: Create the SSL certificate folder
+  file:
+    path: "{{ apache_airflow_ssl_folder }}"
+    state: directory
+
+- name: Copy the Inter certificates
+  copy:
+    src: "{{ item }}"
+    dest: "{{ apache_airflow_ssl_folder }}"
+  notify: restart airflow
+  loop:
+    - eqs_intra.key
+    - eqs_intra.crt
+
 - name: Install Dependencies
   package:
     name: "{{ item }}"
@@ -76,8 +90,17 @@
   loop:
     - airflow-scheduler
     - airflow-webserver
+  
+- name: Start airflow Webserver and Scheduler service
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+    - airflow-webserver
+    - airflow-scheduler
 
-- name: create Airflow admin user
+- name: Create Airflow admin user
   command: airflow create_user -r ADMIN -u {{ item.username }} -e {{ item.email }} -f {{ item.firstname }} -l {{ item.lastname }} -p {{ item.password }}
   become: yes
   with_items:

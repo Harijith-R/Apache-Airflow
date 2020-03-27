@@ -7,7 +7,6 @@
   service:
     name: "{{ item }}"
     state: restarted
-    enabled: yes
   loop:
     - airflow-webserver
     - airflow-scheduler

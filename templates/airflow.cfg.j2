@@ -59,9 +59,11 @@ default_owner = airflow
 default_hive_mapred_queue = airflow
 
 [webserver]
-base_url = http://{{ apache_airflow_base_url }}:8080
+base_url = https://{{ apache_airflow_base_url }}:443
 web_server_host = 0.0.0.0
-web_server_port = 8080
+web_server_port = 443
+web_server_ssl_cert = {{ apache_airflow_ssl_folder }}/eqs_intra.crt
+web_server_ssl_key = {{ apache_airflow_ssl_folder }}/eqs_intra.key
 web_server_master_timeout = 120
 web_server_worker_timeout = 120
 worker_refresh_batch_size = 1

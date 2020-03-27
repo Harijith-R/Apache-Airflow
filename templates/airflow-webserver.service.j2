@@ -23,8 +23,8 @@ Wants=postgresql.service mysql.service redis.service rabbitmq-server.service
 
 [Service]
 EnvironmentFile=/etc/systemd/airflow
-User=airflow
-Group=airflow
+User=root
+Group=root
 Type=simple
 ExecStart={{ apache_airflow_execuitable }} webserver --pid /run/airflow/webserver.pid
 Restart=on-failure

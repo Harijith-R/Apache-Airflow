@@ -4,6 +4,10 @@ apache_airflow_home: /opt/airflow
 apache_airflow_execuitable: /usr/local/bin/airflow
 apache_airflow_run: /run/airflow
 apache_airflow_base_url: airflow.eqs.intra
+apache_airflow_ssl_folder: /etc/ssl
+
+#Must be added to my.cnf
+explicit_defaults_for_timestamp: 1
 
 #CORE
 apache_airflow_dags_folder: /opt/airflow/dags
