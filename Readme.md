@@ -12,10 +12,9 @@
 Update the airflow configuration parametes if required
 
 ### Sample Playbook
-`---
+---
  - hosts: all
    become: yes
    roles:
     - mysql
     - apache-airflow
-`

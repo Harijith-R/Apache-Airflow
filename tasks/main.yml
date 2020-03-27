@@ -4,7 +4,8 @@
     name: airflow
     comment: Airflow service user
     shell: /bin/bash
-    group: sudo
+    groups:
+      - sudo
 
 - name: Create Airflow config folder
   file:
