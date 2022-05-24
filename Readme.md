@@ -2,9 +2,7 @@
 
 ### Requirement
 
-1. Mysql server can use this role
-    `git@github.com:Harijith-R/MySQL.git`
-
+1. Mysql server can use this role: `git@github.com:Harijith-R/MySQL.git`
 2. Database to be created
 3. Mysql user to be provisioned
 4. `explicit_defaults_for_timestamp: 1` to be added in my.cnf
