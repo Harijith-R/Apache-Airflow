@@ -10,6 +10,7 @@
 3. Mysql user to be provisioned
 4. `explicit_defaults_for_timestamp: 1` to be added in my.cnf
 5. DB credentials to be updated
+6. SMTP details to be updated on airflow.cfg.j2
 Update the airflow configuration parametes if required
 
 ### Sample Playbook

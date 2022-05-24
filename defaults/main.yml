@@ -3,7 +3,7 @@ ansible_python_interpreter: /usr/bin/python3
 apache_airflow_home: /opt/airflow
 apache_airflow_execuitable: /usr/local/bin/airflow
 apache_airflow_run: /run/airflow
-apache_airflow_base_url: airflow.eqs.intra
+apache_airflow_base_url: airflow.domain.com
 apache_airflow_ssl_folder: /etc/ssl
 
 #Must be added to my.cnf
@@ -29,4 +29,4 @@ apache_airflow_admin_users:
     password: admin
     firstname: admin
     lastname: user
-    email: admin@eqs.com
+    email: admin@domain.com

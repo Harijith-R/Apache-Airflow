@@ -30,8 +30,8 @@
     dest: "{{ apache_airflow_ssl_folder }}"
   notify: restart airflow
   loop:
-    - eqs_intra.key
-    - eqs_intra.crt
+    - ssl.key
+    - ssl.crt
 
 - name: Install Dependencies
   package:
