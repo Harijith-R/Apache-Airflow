@@ -2,9 +2,8 @@
 
 ### Requirement
 
-1. mysql server
-    can use this role
-    `git@gitlab.intra:kochi-infra-tools/mysql.git`
+1. Mysql server can use this role
+    `git@github.com:Harijith-R/MySQL.git`
 
 2. Database to be created
 3. Mysql user to be provisioned
